@@ -26,8 +26,8 @@ set batch=2
 
 set t=
 
-set model=g
+set model=a
 
-set lr=1e-4
+set lr=1e-6
 
 python train.py -dgr -m=t-net --lr=%lr% --model=%model% --batch=%batch%  --tolerance_loss=%t% --img=%img% --trimap=%tmp% --seg_img=%seg_img% --seg_mask=%seg_mask% --val-out=%val_out% --val-img=%val_img% --val-trimap=%val_tmp% --ckpt=%ckpt% --patch-size=%patch_size% --sample=%sample% --epoch=%epoch%

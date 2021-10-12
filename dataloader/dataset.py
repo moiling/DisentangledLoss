@@ -123,15 +123,21 @@ class TrainDataset(BaseDataset):
         return transforms.Compose([
             transforms.Resize((self.patch_size, self.patch_size)),
             transforms.RandomHorizontalFlip(),
-            transforms.ToTensor()
+            transforms.ToTensor(),
+            transforms.Normalize(mean=[0.485, 0.456, 0.406],
+                                 std=[0.229, 0.224, 0.225])
         ])
 
     def __create_transforms(self):
         return transforms.Compose([
+            transforms.ResizeIfBiggerThan(1600),
+            transforms.ResizeIfShortBiggerThan(1080),
             transforms.RandomCrop([640, 960, 1280]),
             transforms.Resize((self.patch_size, self.patch_size)),
             transforms.RandomHorizontalFlip(),
-            transforms.ToTensor()
+            transforms.ToTensor(),
+            transforms.Normalize(mean=[0.485, 0.456, 0.406],
+                                 std=[0.229, 0.224, 0.225])
         ])
 
 
@@ -147,9 +153,12 @@ class ValDataset(BaseDataset):
 
     def __create_transforms(self):
         return transforms.Compose([
-            transforms.ResizeIfBiggerThan(self.patch_size),
+            # transforms.ResizeIfBiggerThan(self.patch_size),
+            transforms.Resize4(1600, 1080),
             # transforms.Resize((self.patch_size, self.patch_size)),
-            transforms.ToTensor()
+            transforms.ToTensor(),
+            transforms.Normalize(mean=[0.485, 0.456, 0.406],
+                                 std=[0.229, 0.224, 0.225])
         ])
 
 
@@ -166,5 +175,7 @@ class TestDataset(BaseDataset):
     def __create_transforms(self):
         return transforms.Compose([
             transforms.ResizeIfBiggerThan(self.patch_size),
-            transforms.ToTensor()
+            transforms.ToTensor(),
+            transforms.Normalize(mean=[0.485, 0.456, 0.406],
+                                 std=[0.229, 0.224, 0.225])
         ])

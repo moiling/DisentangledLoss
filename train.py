@@ -1,5 +1,4 @@
 from tensorboardX import SummaryWriter
-
 import torch
 import random
 import logging
@@ -34,7 +33,7 @@ parser.add_argument('--lr',         type=float, default=1e-5, help='learning rat
 parser.add_argument('--patch-size', type=int,   default=480,  help='patch size of input images.')
 parser.add_argument('--seed',       type=int,   default=42,   help='random seed.')
 
-parser.add_argument('--model', type=str, choices=['p', 'm', 'g'], default='p', help='p = PSPNet, m = MobileNetV2, g = GFM')
+parser.add_argument('--model', type=str, choices=['p', 'm', 'g', 'a'], default='p', help='p = PSPNet, m = MobileNetV2, g = GFM')
 
 parser.add_argument('--tolerance_loss',       type=bool,   default=False,   help='tolerance loss.')
 

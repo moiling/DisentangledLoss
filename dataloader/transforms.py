@@ -47,6 +47,44 @@ def resize_if_smaller(img, size):
         img = F.resize(img, [w, h])
     return img
 
+class ResizeIfShortBiggerThan(object):
+    def __init__(self, size):
+        self.size = size
+
+    def __call__(self, images):
+        for idx, image in enumerate(images):
+            min_size = min(image.size)
+            if min_size > self.size:
+                rate = self.size / float(min_size)
+                h, w = math.ceil(rate * image.size[0]), math.ceil(rate * image.size[1])
+                images[idx] = F.resize(image, [w, h])
+        return images
+
+
+class Resize4(object):
+    def __init__(self, max_size, short_size):
+        self.max_size = max_size
+        self.short_size = short_size
+
+    def __call__(self, images):
+        for idx, image in enumerate(images):
+            w, h = image.size
+            resize_h = int(h / 4)
+            resize_w = int(w / 4)
+
+            new_h = min(self.max_size, resize_h - (resize_h % 32))
+            new_w = min(self.max_size, resize_w - (resize_w % 32))
+
+            min_size = min(new_h, new_w)
+
+            if min_size > self.short_size:
+                rate = self.short_size / float(min_size)
+                new_w, new_h = math.ceil(rate * image.size[0]), math.ceil(rate * image.size[1])
+
+            images[idx] = F.resize(image, [new_h, new_w])
+
+        return images
+
 
 class Compose(object):
     def __init__(self, transforms):
